@@ -1,12 +1,12 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
-const users = require("./src/server/routes/users.js");
-const tasks = require("./src/server/routes/tasks.js");
+const users = require("./server/routes/users.js");
+const tasks = require("./server/routes/tasks.js");
 
-const { connectDataBase } = require("./src/mongo/index.js");
+const { connectDataBase } = require("./mongo/index.js");
 const app = express();
-const port = 8080;
+const port = 5000;
 const endPoint = "/api/v1";
 
 // config
