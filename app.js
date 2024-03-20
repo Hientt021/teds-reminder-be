@@ -13,7 +13,7 @@ const endPoint = "/api/v1";
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
+app.get("/", (req, res) => res.send("Express on Vercel"));
 // middleware
 
 app.use(express.urlencoded({ extended: false }));
