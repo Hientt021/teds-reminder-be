@@ -9,7 +9,8 @@ const app = express();
 const port = 5000;
 const endPoint = "/api/v1";
 connectDataBase();
-
+// app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => res.send("New Express on Vercel"));
 
 app.use(express.urlencoded({ extended: false }));

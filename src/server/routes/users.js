@@ -9,12 +9,12 @@ router.post("/login", async (req, res) => {
     const userName = req.body.userName;
     const password = req.body.password;
 
-    const account = AccountModel.findOne({ userName, password });
+    const account = await AccountModel.findOne({ userName, password });
+
     if (account) {
-      const user = UserModel.findOne({ id: data.id });
+      const user = await UserModel.findOne({ id: account.id });
       if (user) res.json(user);
-      else res.json("Wrong user name or password");
-    }
+    } else res.json("Wrong user name or password");
   } catch (e) {
     res.status(500).json("Login fail");
   }
