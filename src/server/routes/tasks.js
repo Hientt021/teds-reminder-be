@@ -16,4 +16,14 @@ router.post("/task", async (req, res) => {
   }
 });
 
+router.get("/task", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const tasks = await TaskModel.find({});
+    if (tasks) res.json(tasks);
+  } catch (e) {
+    res.status(500).json("Get tasks fail");
+  }
+});
+
 module.exports = router;
