@@ -10,7 +10,6 @@ router.post("/task", async (req, res) => {
       ...req.body,
       id,
     });
-    console.log(newTask);
     if (newTask) res.json(newTask);
   } catch (e) {
     res.status(500).json("Create new task fail");
