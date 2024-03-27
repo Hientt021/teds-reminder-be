@@ -1,4 +1,5 @@
 const express = require("express");
+const { getNewUserId } = require("../../utils/id");
 const UserModel = require("../models/usersModel");
 const AccountModel = require("../models/accountModel");
 
@@ -25,7 +26,7 @@ router.post("/register", async (req, res) => {
     const userName = req.body.userName;
     const password = req.body.password;
 
-    const id = await getNewUserId();
+    const id = await getNewUserId(UserModel);
 
     const newAccount = await AccountModel.create({
       userName,
@@ -44,19 +45,5 @@ router.post("/register", async (req, res) => {
     res.status(500).json("Register fail");
   }
 });
-
-const getNewUserId = async (length = 6) => {
-  let userId = "";
-  while (!userId) {
-    const id = Math.random()
-      .toString(36)
-      .substring(2, length + 2);
-    const alreadyExist = await UserModel.findOne({ id });
-    if (alreadyExist) userId = "";
-    else userId = id;
-  }
-
-  return userId;
-};
 
 module.exports = router;
