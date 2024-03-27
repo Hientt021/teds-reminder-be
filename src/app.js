@@ -16,7 +16,6 @@ connectDataBase();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => res.json({ message: "New Express on Vercel" }));
-app.post("/api/v1/login", (req, res) => res.json(req.body));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
