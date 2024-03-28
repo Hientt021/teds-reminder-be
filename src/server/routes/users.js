@@ -4,6 +4,7 @@ import AccountModel from "../models/accountModel.js";
 import { getNewUserId } from "../../utils/id.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import { response } from "../../utils/response.js";
 dotenv.config();
 const router = express.Router();
 
@@ -14,16 +15,16 @@ router.post("/login", async (req, res) => {
     if (account) {
       const user = await UserModel.findOne({ id: account.id });
       if (user) {
-        const accessToken = await jwt.sign(
-          data,
-          process.env.ACCESS_TOKEN_SECRET,
-          {
-            expiresIn: "30s",
-          }
-        );
-        res.json({ accessToken });
+        const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30s",
+        });
+        const resp = await response(200, "Login successfully", { accessToken });
+        res.json(resp);
       }
-    } else res.json("Wrong user name or password");
+    } else {
+      const resp = await response(401, "Wrong user name or password");
+      res.json(resp);
+    }
   } catch (e) {
     res.status(500).json("Login fail");
   }

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
+    "startAuthServer": "node ./src/auth.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "vercel-build": "echo"
   },
