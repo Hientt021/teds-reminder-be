@@ -1,20 +1,28 @@
-const express = require("express");
-const { getNewUserId } = require("../../utils/id");
-const UserModel = require("../models/usersModel");
-const AccountModel = require("../models/accountModel");
-
+import express from "express";
+import UserModel from "../models/usersModel.js";
+import AccountModel from "../models/accountModel.js";
+import { getNewUserId } from "../../utils/id.js";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+dotenv.config();
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
   try {
-    const userName = req.body.userName;
-    const password = req.body.password;
-
-    const account = await AccountModel.findOne({ userName, password });
-
+    const data = req.body;
+    const account = await AccountModel.findOne(data);
     if (account) {
       const user = await UserModel.findOne({ id: account.id });
-      if (user) res.json(user);
+      if (user) {
+        const accessToken = await jwt.sign(
+          data,
+          process.env.ACCESS_TOKEN_SECRET,
+          {
+            expiresIn: "30s",
+          }
+        );
+        res.json({ accessToken });
+      }
     } else res.json("Wrong user name or password");
   } catch (e) {
     res.status(500).json("Login fail");
@@ -46,4 +54,4 @@ router.post("/register", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const getNewUserId = async (model, length = 6) => {
+export const getNewUserId = async (model, length = 6) => {
   let userId = "";
   while (!userId) {
     const id = Math.random()
@@ -11,5 +11,3 @@ const getNewUserId = async (model, length = 6) => {
 
   return userId;
 };
-
-module.exports = { getNewUserId };

@@ -1,20 +1,19 @@
-const express = require("express");
-const path = require("path");
-const session = require("express-session");
-const users = require("./server/routes/users.js");
-const tasks = require("./server/routes/tasks.js");
-
-const { connectDataBase } = require("./mongo/index.js");
-var cors = require("cors");
+import express from "express";
+import path from "path";
+import session from "express-session";
+import users from "./server/routes/users.js";
+import tasks from "./server/routes/tasks.js";
+import cors from "cors";
+import { connectDataBase } from "./mongo/index.js";
 
 const app = express();
 app.use(cors());
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 const endPoint = "/api/v1";
 connectDataBase();
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => res.json({ message: "New Express on Vercel" }));
 
 app.use(express.urlencoded({ extended: false }));
