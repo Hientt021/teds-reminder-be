@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(endPoint, tasks);
-// app.use(authToken);
+app.use(authToken);
 
 function authToken(req, res, next) {
   const authorizationHeader = req.headers["authorization"];

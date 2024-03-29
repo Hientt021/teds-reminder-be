@@ -1,14 +1,14 @@
-export const response = (code, message, data) => {
-  if (code >= 200 || code <= 299) {
-    return {
-      success: true,
-      message,
-      data,
-    };
-  } else {
-    return {
-      success: false,
-      message,
-    };
-  }
+export const successResponse = (data, message) => {
+  return {
+    success: true,
+    message,
+    data,
+  };
+};
+
+export const errorResponse = (message) => {
+  return {
+    success: false,
+    message,
+  };
 };

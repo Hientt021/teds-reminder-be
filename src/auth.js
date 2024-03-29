@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { connectDataBase } from "./mongo/index.js";
 import AccountModel from "./server/models/accountModel.js";
 import UserModel from "./server/models/usersModel.js";
-import { response } from "./utils/response.js";
+import { errorResponse, successResponse } from "./utils/response.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -62,18 +62,21 @@ app.post("/api/v1/login", async (req, res) => {
           process.env.REFRESH_ACCESS_TOKEN_SECRET
         );
         refreshTokens.push(refreshToken);
-        const resp = response(200, "Login successfully", {
-          accessToken,
-          refreshToken,
-        });
-        res.json(resp);
+        res.status(200).json(
+          successResponse(
+            {
+              accessToken,
+              refreshToken,
+            },
+            "Login successfully"
+          )
+        );
       }
     } else {
-      const resp = response(401, "Wrong user name or password");
-      res.json(resp);
+      res.status(401).json(errorResponse("Wrong user name or password"));
     }
   } catch (e) {
-    res.status(500).json("Login fail");
+    res.status(500).json(errorResponse("Login fail"));
   }
 });
 
