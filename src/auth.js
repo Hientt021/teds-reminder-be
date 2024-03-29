@@ -9,15 +9,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const refreshTokens = [];
-
-const app = express();
-app.use(cors());
-
 const port = 5500;
 
-connectDataBase();
-
+const app = express();
+app.options("*", cors());
 app.use(express.json());
+
+connectDataBase();
 
 app.post("/api/v1/refreshToken", async (req, res) => {
   const refreshToken = req.body.token;

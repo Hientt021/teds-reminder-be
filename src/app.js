@@ -7,8 +7,7 @@ import cors from "cors";
 import { connectDataBase } from "./mongo/index.js";
 import jwt from "jsonwebtoken";
 const app = express();
-app.use(cors());
-
+app.options("*", cors());
 const port = process.env.PORT || 5000;
 const endPoint = "/api/v1";
 connectDataBase();
