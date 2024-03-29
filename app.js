@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const endPoint = "/api/v1";
 const uri = process.env.MONGOOSE_DB;
-mongoose.connect(uri).then((data) => console.log("trigger"));
+mongoose.connect(uri);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());

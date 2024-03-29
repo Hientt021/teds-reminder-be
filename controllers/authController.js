@@ -80,8 +80,9 @@ export const authController = {
       (err, data) => {
         if (err) res.status(403).json(errorResponse("Token is not valid"));
         refreshTokens.filter((token) => token !== refreshToken);
-        const newAccessToken = authController.getAccessToken(data);
-        const newRefreshToken = authController.getRefreshAccessToken(data);
+        const { iat, ...user } = data;
+        const newAccessToken = authController.getAccessToken(user);
+        const newRefreshToken = authController.getRefreshAccessToken(user);
 
         res.cookie("refreshToken", newRefreshToken, {
           httpOnly: true,
@@ -99,7 +100,7 @@ export const authController = {
   },
   getAccessToken: (data) => {
     return jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "20s",
+      expiresIn: "30s",
     });
   },
   getRefreshAccessToken: (data) => {
