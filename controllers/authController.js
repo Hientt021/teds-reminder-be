@@ -29,7 +29,8 @@ export const authController = {
       const data = req.body;
 
       const user = await UserModel.findOne({ email: data.email });
-      if (!user) res.status(404).json(errorResponse("Wrong email address"));
+      if (!user)
+        return res.status(404).json(errorResponse("Wrong email address"));
 
       const isValidPassword = await bcrypt.compare(
         data.password,
@@ -37,28 +38,25 @@ export const authController = {
       );
 
       if (!isValidPassword) {
-        res.status(404).json(errorResponse("Wrong password"));
+        return res.status(404).json(errorResponse("Wrong password"));
       }
 
       const { password, __v, ...others } = user._doc;
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-      });
-
-      res.status(200).json(
+      return res.status(200).json(
         successResponse(
           {
             user: others,
             accessToken,
+            refreshToken,
           },
           "Login successfully"
         )
       );
     } catch (e) {
-      res.status(500).json(errorResponse(e.message));
+      return res.status(500).json(errorResponse(e.message));
     }
   },
   logout: async (req, res) => {
@@ -67,31 +65,29 @@ export const authController = {
     res.sendStatus(200);
   },
   refreshToken: async (req, res) => {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.body.refreshToken;
     if (!refreshToken)
-      res.status(401).json(errorResponse("You are not authenticated"));
+      return res.status(401).json(errorResponse("You are not authenticated"));
 
     if (!refreshTokens.includes(refreshToken))
-      res.status(403).json(errorResponse("Token is not valid"));
+      return res.status(403).json(errorResponse("Token is not valid"));
 
     jwt.verify(
       refreshToken,
       process.env.REFRESH_ACCESS_TOKEN_SECRET,
       (err, data) => {
-        if (err) res.status(403).json(errorResponse("Token is not valid"));
+        if (err)
+          return res.status(403).json(errorResponse("Token is not valid"));
         refreshTokens.filter((token) => token !== refreshToken);
         const { iat, ...user } = data;
         const newAccessToken = authController.getAccessToken(user);
         const newRefreshToken = authController.getRefreshAccessToken(user);
 
-        res.cookie("refreshToken", newRefreshToken, {
-          httpOnly: true,
-        });
-        res
+        return res
           .status(200)
           .json(
             successResponse(
-              { accessToken: newAccessToken },
+              { accessToken: newAccessToken, refreshToken: newRefreshToken },
               "Refresh token successfully"
             )
           );
@@ -100,7 +96,7 @@ export const authController = {
   },
   getAccessToken: (data) => {
     return jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "30s",
+      expiresIn: "20s",
     });
   },
   getRefreshAccessToken: (data) => {
