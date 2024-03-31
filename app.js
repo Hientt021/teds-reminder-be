@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import auth from "./routes/auth.js";
 import tasks from "./routes/tasks.js";
+import user from "./routes/user.js";
 import middlewareController from "./controllers/middlewareController.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(endPoint + "/auth", auth);
 app.use(endPoint, middlewareController.verifyToken, tasks);
+app.use(endPoint, middlewareController.verifyToken, user);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
