@@ -32,8 +32,8 @@ const middlewareController = {
       return res.status(404).json(errorResponse("User not found"));
     }
 
-    const { _id, password, __v, ...others } = user._doc;
-    req.user = { id: _id, ...others };
+    const { password, ...others } = user._doc;
+    req.user = others;
     next();
   },
 };
