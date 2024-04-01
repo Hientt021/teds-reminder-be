@@ -1,4 +1,4 @@
-import TaskModel from "../models/tasksModel.js";
+import TaskModel from "../models/taskModel.js";
 import { errorResponse, successResponse } from "../src/utils/response.js";
 
 const taskController = {

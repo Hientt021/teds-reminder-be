@@ -18,7 +18,14 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
   },
-  { timestamps: true }
+  {
+    collection: "users",
+    versionKey: false,
+    virtuals: true,
+    transform: function (doc, ret) {
+      delete ret._id;
+    },
+  }
 );
 
 const UserModel = mongoose.model("users", UserSchema);

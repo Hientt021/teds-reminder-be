@@ -4,7 +4,8 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import auth from "./routes/auth.js";
-import tasks from "./routes/tasks.js";
+import tasks from "./routes/task.js";
+import projects from "./routes/project.js";
 import user from "./routes/user.js";
 import middlewareController from "./controllers/middlewareController.js";
 
@@ -21,8 +22,24 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(endPoint + "/auth", auth);
-app.use(endPoint, middlewareController.verifyToken, tasks);
-app.use(endPoint, middlewareController.verifyToken, user);
+app.use(
+  endPoint,
+  middlewareController.verifyToken,
+  middlewareController.verifyUser,
+  tasks
+);
+app.use(
+  endPoint,
+  middlewareController.verifyToken,
+  middlewareController.verifyUser,
+  user
+);
+app.use(
+  endPoint,
+  middlewareController.verifyToken,
+  middlewareController.verifyUser,
+  projects
+);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
