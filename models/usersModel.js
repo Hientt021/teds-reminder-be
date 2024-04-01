@@ -20,10 +20,12 @@ const UserSchema = new mongoose.Schema(
   },
   {
     collection: "users",
-    versionKey: false,
-    virtuals: true,
-    transform: function (doc, ret) {
-      delete ret._id;
+    toJSON: {
+      versionKey: false,
+      virtuals: true,
+      transform: function (doc, ret) {
+        delete ret._id;
+      },
     },
   }
 );

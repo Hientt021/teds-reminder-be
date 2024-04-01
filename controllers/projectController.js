@@ -4,7 +4,6 @@ import { errorResponse, successResponse } from "../src/utils/response.js";
 const projectController = {
   getAllProject: async (req, res) => {
     try {
-      console.log(req.user);
       const projects = await ProjectModel.find({});
       if (projects) res.status(200).json(successResponse(projects, "Success"));
     } catch (e) {
