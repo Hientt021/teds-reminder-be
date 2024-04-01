@@ -13,11 +13,13 @@ const taskController = {
   createTask: async (req, res) => {
     try {
       const newTask = await TaskModel.create(req.body);
+
       if (newTask)
         res
           .status(200)
-          .json(successResponse(tasks, "Create new task successfully"));
+          .json(successResponse(newTask, "Create new task successfully"));
     } catch (e) {
+      console.log(e.message);
       res.status(500).json(errorResponse("Can not create new task"));
     }
   },

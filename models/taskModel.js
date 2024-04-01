@@ -8,14 +8,10 @@ const TaskSchema = new mongoose.Schema(
     collection: "tasks",
     toJSON: {
       versionKey: false,
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret._id;
-      },
     },
   }
 );
 
-const TaskModel = mongoose.model("tasks", TaskSchema);
+const TaskModel = mongoose.model("task", TaskSchema);
 
 export default TaskModel;

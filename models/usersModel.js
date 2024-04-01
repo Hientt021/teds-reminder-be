@@ -22,10 +22,6 @@ const UserSchema = new mongoose.Schema(
     collection: "users",
     toJSON: {
       versionKey: false,
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret._id;
-      },
     },
   }
 );

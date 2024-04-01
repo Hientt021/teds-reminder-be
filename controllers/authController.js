@@ -16,9 +16,10 @@ export const authController = {
 
       const newUser = await UserModel.create(data);
       if (newUser) {
+        const { password, ...others } = newUser._doc;
         res
           .status(200)
-          .json(successResponse(newUser, "Register new user successfully"));
+          .json(successResponse(others, "Register new user successfully"));
       }
     } catch (e) {
       res.status(500).json(errorResponse(e.message));

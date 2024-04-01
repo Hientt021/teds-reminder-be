@@ -13,10 +13,6 @@ const ProjectSchema = new mongoose.Schema(
     collection: "projects",
     toJSON: {
       versionKey: false,
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret._id;
-      },
     },
   }
 );
