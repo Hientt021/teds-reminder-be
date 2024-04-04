@@ -1,4 +1,4 @@
-import { errorResponse, successResponse } from "../src/utils/response.js";
+import { errorResponse, successResponse } from "../utils/response.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/usersModel.js";

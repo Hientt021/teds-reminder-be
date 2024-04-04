@@ -1,5 +1,5 @@
 import ProjectModel from "../models/projectModel.js";
-import { errorResponse, successResponse } from "../src/utils/response.js";
+import { errorResponse, successResponse } from "../utils/response.js";
 
 const projectController = {
   getAllProject: async (req, res) => {
