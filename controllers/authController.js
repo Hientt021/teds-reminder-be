@@ -2,7 +2,7 @@ import { errorResponse, successResponse } from "../utils/response.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/usersModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 const refreshTokens = [];
