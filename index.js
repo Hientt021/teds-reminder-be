@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -12,7 +13,6 @@ import middlewareController from "./controllers/middlewareController.js";
 dotenv.config();
 const app = express();
 
-const port = normalizePort(process.env.PORT || "5000");
 const endPoint = "/api/v1";
 const uri = process.env.MONGOOSE_DB;
 mongoose.connect(uri).then((data) => console.log("Connected to MongoDB"));
@@ -40,7 +40,6 @@ app.use(
   middlewareController.verifyUser,
   projects
 );
-
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -52,7 +51,6 @@ const normalizePort = (val) => {
   }
   return false;
 };
-app.set("port", port);
 
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
@@ -74,6 +72,9 @@ const errorHandler = (error) => {
       throw error;
   }
 };
+
+const port = normalizePort(process.env.PORT || "5000");
+app.set("port", port);
 
 const server = http.createServer(app);
 
