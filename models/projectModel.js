@@ -11,9 +11,7 @@ const ProjectSchema = new mongoose.Schema(
   },
   {
     collection: "projects",
-    toJSON: {
-      versionKey: false,
-    },
+    versionKey: false,
   }
 );
 

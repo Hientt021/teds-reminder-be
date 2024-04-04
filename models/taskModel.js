@@ -6,9 +6,7 @@ const TaskSchema = new mongoose.Schema(
   },
   {
     collection: "tasks",
-    toJSON: {
-      versionKey: false,
-    },
+    versionKey: false,
   }
 );
 

@@ -20,11 +20,10 @@ const UserSchema = new mongoose.Schema(
   },
   {
     collection: "users",
-    toJSON: {
-      versionKey: false,
-    },
+    versionKey: false,
   }
 );
 
 const UserModel = mongoose.model("users", UserSchema);
+
 export default UserModel;

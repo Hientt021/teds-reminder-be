@@ -1,7 +1,7 @@
 import { errorResponse, successResponse } from "../utils/response.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/usersModel.js";
+import UserModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 
 dotenv.config();
@@ -42,7 +42,7 @@ export const authController = {
         return res.status(404).json(errorResponse("Wrong password"));
       }
 
-      const { password, __v, ...others } = user._doc;
+      const { password, ...others } = user._doc;
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
 
