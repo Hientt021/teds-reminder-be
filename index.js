@@ -16,6 +16,7 @@ const app = express();
 const endPoint = "/api/v1";
 const corsOptions = {
   credentials: true,
+  origin: ["http://localhost:3000", "https://tedsreminder.vercel.app/login"],
 };
 
 const uri = process.env.MONGOOSE_DB;
