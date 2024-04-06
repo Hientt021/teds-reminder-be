@@ -45,13 +45,12 @@ export const authController = {
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
       res.setHeader("Set-Cookie", [
-        `refreshToken=${refreshToken}; httpOnly; secure`,
+        `refreshToken=${refreshToken}; httpOnly; secure; sameSite=none`,
       ]);
       return res.status(200).json(
         successResponse(
           {
             accessToken,
-            refreshToken,
           },
           "Login successfully"
         )
@@ -89,7 +88,7 @@ export const authController = {
         const newAccessToken = authController.getAccessToken(user);
         const newRefreshToken = authController.getRefreshAccessToken(user);
         res.setHeader("Set-Cookie", [
-          `refreshToken=${newRefreshToken}; httpOnly; secure`,
+          `refreshToken=${newRefreshToken}; httpOnly; secure, sameSite=none`,
         ]);
         return res
           .status(200)
