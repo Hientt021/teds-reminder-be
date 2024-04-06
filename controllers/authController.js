@@ -5,7 +5,7 @@ import UserModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 
 dotenv.config();
-const refreshTokens = [];
+let refreshTokens = [];
 
 export const authController = {
   register: async (req, res) => {
@@ -42,14 +42,14 @@ export const authController = {
         return res.status(404).json(errorResponse("Wrong password"));
       }
 
-      const { password, ...others } = user._doc;
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
-
+      res.setHeader("Set-Cookie", [
+        `refreshToken=${refreshToken}; httpOnly; secure`,
+      ]);
       return res.status(200).json(
         successResponse(
           {
-            user: others,
             accessToken,
             refreshToken,
           },
@@ -61,34 +61,41 @@ export const authController = {
     }
   },
   logout: async (req, res) => {
-    const refreshToken = req.body.token;
-    refreshTokens.filter((refToken) => refToken !== refreshToken);
+    const refreshTokenStr = req.headers.token;
+    refreshTokens = refreshTokens.filter(
+      (refToken) => refToken !== refreshTokenStr
+    );
     res.sendStatus(200);
   },
   refreshToken: async (req, res) => {
-    const refreshToken = req.body.refreshToken;
-    if (!refreshToken)
+    const refreshTokenStr = req.headers.token;
+
+    if (!refreshTokenStr)
       return res.status(401).json(errorResponse("You are not authenticated"));
 
-    if (!refreshTokens.includes(refreshToken))
+    if (!refreshTokens.includes(refreshTokenStr))
       return res.status(403).json(errorResponse("Token is not valid"));
 
     jwt.verify(
-      refreshToken,
+      refreshTokenStr,
       process.env.REFRESH_ACCESS_TOKEN_SECRET,
       (err, data) => {
         if (err)
           return res.status(403).json(errorResponse("Token is not valid"));
-        refreshTokens.filter((token) => token !== refreshToken);
+        refreshTokens = refreshTokens.filter(
+          (token) => token !== refreshTokenStr
+        );
         const { iat, ...user } = data;
         const newAccessToken = authController.getAccessToken(user);
         const newRefreshToken = authController.getRefreshAccessToken(user);
-
+        res.setHeader("Set-Cookie", [
+          `refreshToken=${newRefreshToken}; httpOnly; secure`,
+        ]);
         return res
           .status(200)
           .json(
             successResponse(
-              { accessToken: newAccessToken, refreshToken: newRefreshToken },
+              { accessToken: newAccessToken },
               "Refresh token successfully"
             )
           );
@@ -97,7 +104,7 @@ export const authController = {
   },
   getAccessToken: (data) => {
     return jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "1h",
     });
   },
   getRefreshAccessToken: (data) => {
