@@ -15,8 +15,9 @@ const projectController = {
       const { body, user } = req;
       const newProject = await ProjectModel.create({
         ...body,
-        created_by: user.id,
+        created_by: user._id,
       });
+
       if (newProject)
         res
           .status(200)

@@ -2,11 +2,17 @@ import mongoose from "mongoose";
 
 const ProjectSchema = new mongoose.Schema(
   {
-    title: String,
-    created_by: String,
-    status: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    created_by: mongoose.Schema.Types.ObjectId,
+    status: {
+      type: String,
+      required: true,
+    },
     members: {
-      type: Array,
+      type: [mongoose.Schema.Types.ObjectId],
     },
   },
   {
