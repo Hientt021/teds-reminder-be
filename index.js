@@ -14,11 +14,15 @@ dotenv.config();
 const app = express();
 
 const endPoint = "/api/v1";
+const corsOptions = {
+  credentials: true,
+};
+
 const uri = process.env.MONGOOSE_DB;
 mongoose.connect(uri).then((data) => console.log("Connected to MongoDB"));
 
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(endPoint + "/auth", auth);
