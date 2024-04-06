@@ -44,9 +44,10 @@ export const authController = {
 
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
-      res.setHeader("Set-Cookie", [
-        `refreshToken=${refreshToken}; httpOnly; secure; sameSite=none`,
-      ]);
+      res.setHeader(
+        "Set-Cookie",
+        `refreshToken=${refreshToken}; Secure; HttpOnly; SameSite=None; Path=/; Max-Age=99999999;`
+      );
       return res.status(200).json(
         successResponse(
           {
