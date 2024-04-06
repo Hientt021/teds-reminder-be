@@ -67,7 +67,9 @@ export const authController = {
     res.sendStatus(200);
   },
   refreshToken: async (req, res) => {
-    const refreshTokenStr = req.headers.token;
+    const refreshToken = req.headers.cookie;
+    console.log(refreshToken);
+    const refreshTokenStr = refreshToken?.split("=")?.[1];
 
     if (!refreshTokenStr)
       return res.status(401).json(errorResponse("You are not authenticated"));
