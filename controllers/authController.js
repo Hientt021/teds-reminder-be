@@ -46,14 +46,15 @@ export const authController = {
       const refreshToken = authController.getRefreshAccessToken(data);
       refreshTokens.push(refreshToken);
 
-      res.setHeader(
-        "Set-Cookie",
-        `refreshToken=${refreshToken}; Secure; HttpOnly; SameSite=None; Path=/; Max-Age=99999999;`
-      );
+      res.setHeader("Set-Cookie", [
+        `refreshToken=${refreshToken}; Secure; HttpOnly; SameSite=None; Path=/; Max-Age=2592000; `,
+      ]);
+
       return res.status(200).json(
         successResponse(
           {
             accessToken,
+            refreshToken,
           },
           "Login successfully"
         )
@@ -75,7 +76,6 @@ export const authController = {
 
     if (!refreshTokenStr)
       return res.status(401).json(errorResponse("You are not authenticated"));
-
     if (!refreshTokens.includes(refreshTokenStr))
       return res.status(403).json(errorResponse("Token is not valid"));
 
@@ -94,13 +94,13 @@ export const authController = {
         );
         refreshTokens.splice(index, 1, newRefreshToken);
         res.setHeader("Set-Cookie", [
-          `refreshToken=${newRefreshToken}; httpOnly; secure, sameSite=none`,
+          `refreshToken=${newRefreshToken}; Secure; HttpOnly; SameSite=None; Path=/; Max-Age=2592000; `,
         ]);
         return res
           .status(200)
           .json(
             successResponse(
-              { accessToken: newAccessToken },
+              { accessToken: newAccessToken, refreshToken: newRefreshToken },
               "Refresh token successfully"
             )
           );

@@ -19,7 +19,6 @@ const taskController = {
           .status(200)
           .json(successResponse(newTask, "Create new task successfully"));
     } catch (e) {
-      console.log(e.message);
       res.status(500).json(errorResponse("Can not create new task"));
     }
   },
