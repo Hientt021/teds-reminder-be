@@ -44,6 +44,8 @@ export const authController = {
 
       const accessToken = authController.getAccessToken(data);
       const refreshToken = authController.getRefreshAccessToken(data);
+      refreshTokens.push(refreshToken);
+
       res.setHeader(
         "Set-Cookie",
         `refreshToken=${refreshToken}; Secure; HttpOnly; SameSite=None; Path=/; Max-Age=99999999;`
@@ -62,14 +64,13 @@ export const authController = {
   },
   logout: async (req, res) => {
     const refreshTokenStr = req.headers.token;
-    refreshTokens = refreshTokens.filter(
-      (refToken) => refToken !== refreshTokenStr
-    );
+    const index = refreshTokens.findIndex((token) => token === refreshTokenStr);
+    refreshTokens.splice(index, 1);
+
     res.sendStatus(200);
   },
   refreshToken: async (req, res) => {
     const refreshToken = req.headers.cookie;
-    console.log(refreshToken);
     const refreshTokenStr = refreshToken?.split("=")?.[1];
 
     if (!refreshTokenStr)
@@ -84,12 +85,14 @@ export const authController = {
       (err, data) => {
         if (err)
           return res.status(403).json(errorResponse("Token is not valid"));
-        refreshTokens = refreshTokens.filter(
-          (token) => token !== refreshTokenStr
-        );
+
         const { iat, ...user } = data;
         const newAccessToken = authController.getAccessToken(user);
         const newRefreshToken = authController.getRefreshAccessToken(user);
+        const index = refreshTokens.findIndex(
+          (token) => token === refreshTokenStr
+        );
+        refreshTokens.splice(index, 1, newRefreshToken);
         res.setHeader("Set-Cookie", [
           `refreshToken=${newRefreshToken}; httpOnly; secure, sameSite=none`,
         ]);
@@ -114,7 +117,6 @@ export const authController = {
       data,
       process.env.REFRESH_ACCESS_TOKEN_SECRET
     );
-    refreshTokens.push(refreshToken);
     return refreshToken;
   },
 };
