@@ -4,7 +4,7 @@ const userController = {
     try {
       const user = req.user;
 
-      if (user.id)
+      if (user._id)
         return res.status(200).json(successResponse(user, "Success"));
     } catch (e) {
       res.status(500).json(errorResponse("Can not get profile"));
