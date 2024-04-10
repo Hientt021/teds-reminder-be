@@ -11,6 +11,12 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    product_type: [String],
+    start_date: Date,
+    end_date: Date,
+    tasks: Number,
+    closed_tasks: Number,
+    open_tasks: Number,
     members: {
       type: [mongoose.Schema.Types.ObjectId],
     },
