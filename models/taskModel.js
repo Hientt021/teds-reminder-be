@@ -1,21 +1,20 @@
 import mongoose from "mongoose";
 const TaskSchema = new mongoose.Schema(
   {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: function () {
+        return this._id;
+      },
+    },
     title: String,
     deadline: String,
   },
   {
     collection: "tasks",
+    versionKey: false,
   }
 );
-
-TaskSchema.set("toJSON", {
-  virtuals: true,
-  versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-  },
-});
 
 const TaskModel = mongoose.model("task", TaskSchema);
 

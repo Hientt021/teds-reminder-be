@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const UserSchema = new mongoose.Schema(
   {
     userName: {
@@ -17,19 +16,18 @@ const UserSchema = new mongoose.Schema(
       maxLength: 50,
       unique: true,
     },
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: function () {
+        return this._id;
+      },
+    },
   },
   {
     collection: "users",
+    versionKey: false,
   }
 );
-
-UserSchema.set("toJSON", {
-  virtuals: true,
-  versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-  },
-});
 
 const UserModel = mongoose.model("users", UserSchema);
 
