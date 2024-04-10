@@ -76,8 +76,8 @@ export const authController = {
 
     if (!refreshTokenStr)
       return res.status(401).json(errorResponse("You are not authenticated"));
-    if (!refreshTokens.includes(refreshTokenStr))
-      return res.status(403).json(errorResponse("Token is not valid"));
+    // if (!refreshTokens.includes(refreshTokenStr))
+    //   return res.status(403).json(errorResponse("Token is not valid"));
 
     jwt.verify(
       refreshTokenStr,
@@ -109,7 +109,7 @@ export const authController = {
   },
   getAccessToken: (data) => {
     return jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "30s",
+      expiresIn: "3h",
     });
   },
   getRefreshAccessToken: (data) => {

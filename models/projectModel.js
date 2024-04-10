@@ -17,9 +17,16 @@ const ProjectSchema = new mongoose.Schema(
   },
   {
     collection: "projects",
-    versionKey: false,
   }
 );
+
+ProjectSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: (doc, ret) => {
+    delete ret._id;
+  },
+});
 
 const ProjectModel = mongoose.model("projects", ProjectSchema);
 

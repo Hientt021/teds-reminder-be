@@ -6,9 +6,16 @@ const TaskSchema = new mongoose.Schema(
   },
   {
     collection: "tasks",
-    versionKey: false,
   }
 );
+
+TaskSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: (doc, ret) => {
+    delete ret._id;
+  },
+});
 
 const TaskModel = mongoose.model("task", TaskSchema);
 
