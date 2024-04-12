@@ -9,6 +9,13 @@ const TaskSchema = new mongoose.Schema(
     },
     title: String,
     deadline: String,
+    description: String,
+    members: [String],
+    priority: String,
+    scopes: String,
+    status: String,
+    created_by: mongoose.Schema.Types.ObjectId,
+    project_id: mongoose.Schema.Types.ObjectId,
   },
   {
     collection: "tasks",

@@ -35,6 +35,15 @@ const ProjectSchema = new mongoose.Schema(
     members: {
       type: [mongoose.Schema.Types.ObjectId],
     },
+    boards: {
+      type: [
+        {
+          title: String,
+          color: String,
+        },
+      ],
+      default: [],
+    },
   },
   {
     collection: "projects",
