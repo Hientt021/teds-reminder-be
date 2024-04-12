@@ -19,7 +19,7 @@ const projectController = {
 
       const newProject = await ProjectModel.create({
         ...body,
-        created_by: user,
+        created_by: user.id,
       });
 
       if (newProject)

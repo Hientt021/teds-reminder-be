@@ -18,11 +18,20 @@ const ProjectSchema = new mongoose.Schema(
       required: true,
     },
     product_type: [String],
-    start_date: Date,
-    end_date: Date,
-    tasks: Number,
-    closed_tasks: Number,
-    open_tasks: Number,
+    start_date: Number,
+    end_date: Number,
+    tasks: {
+      type: Number,
+      default: 0,
+    },
+    closed_tasks: {
+      type: Number,
+      default: 0,
+    },
+    open_tasks: {
+      type: Number,
+      default: 0,
+    },
     members: {
       type: [mongoose.Schema.Types.ObjectId],
     },
