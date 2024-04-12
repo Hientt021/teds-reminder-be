@@ -1,6 +1,5 @@
 import ProjectModel from "../models/projectModel.js";
 import { errorResponse, successResponse } from "../utils/response.js";
-
 const projectController = {
   getAllProject: async (req, res) => {
     try {
@@ -28,6 +27,20 @@ const projectController = {
           .json(successResponse(newProject, "Create new project successfully"));
     } catch (e) {
       res.status(500).json(errorResponse("Can not create new project"));
+    }
+  },
+  deleteProject: async (req, res) => {
+    try {
+      const { body, user } = req;
+
+      const project = await ProjectModel.findById(body.id);
+
+      if (project.created_by.equals(user.id)) {
+        await ProjectModel.findByIdAndDelete(body.id);
+        res.sendStatus(200);
+      }
+    } catch (e) {
+      res.status(500).json(errorResponse("Can not delete project"));
     }
   },
 };
