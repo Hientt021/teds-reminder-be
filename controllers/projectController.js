@@ -12,6 +12,16 @@ const projectController = {
       res.status(500).json(errorResponse("Can not get all projects"));
     }
   },
+  getProjectById: async (req, res) => {
+    try {
+      const projectId = req.params["id"];
+      const { id } = req.user;
+      const project = await ProjectModel.findById(projectId);
+      if (project) res.status(200).json(successResponse(project, "Success"));
+    } catch (e) {
+      res.status(500).json(errorResponse("Can not get all projects"));
+    }
+  },
   createProject: async (req, res) => {
     try {
       const { body, user } = req;
