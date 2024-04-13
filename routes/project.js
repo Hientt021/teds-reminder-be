@@ -8,7 +8,7 @@ router.post("/project", projectController.createProject);
 
 router.get("/project", projectController.getAllProject);
 
-router.get("/project/:id", projectController.getAllProject);
+router.get("/project/:id", projectController.getProjectById);
 
 router.delete("/project", projectController.deleteProject);
 
