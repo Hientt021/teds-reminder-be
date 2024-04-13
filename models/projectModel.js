@@ -42,7 +42,7 @@ const ProjectSchema = new mongoose.Schema(
           color: String,
         },
       ],
-      default: [],
+      default: [{ title: "To Do", color: "blue" }],
     },
   },
   {
