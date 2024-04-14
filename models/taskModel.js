@@ -15,7 +15,7 @@ const TaskSchema = new mongoose.Schema(
     scopes: String,
     status: String,
     created_by: mongoose.Schema.Types.ObjectId,
-    project_id: mongoose.Schema.Types.ObjectId,
+    project_id: { type: mongoose.Schema.Types.ObjectId, require: true },
   },
   {
     collection: "tasks",

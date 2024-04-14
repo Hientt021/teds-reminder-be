@@ -39,6 +39,28 @@ const projectController = {
       res.status(500).json(errorResponse("Can not create new project"));
     }
   },
+  updateProject: async (req, res) => {
+    try {
+      const { body, user } = req;
+      const projectId = req.params["id"];
+      const updatedProject = await ProjectModel.findOneAndUpdate(
+        { id: projectId },
+        body,
+        {
+          new: true,
+        }
+      );
+
+      if (updatedProject)
+        res
+          .status(200)
+          .json(
+            successResponse(updatedProject, "Create new project successfully")
+          );
+    } catch (e) {
+      res.status(500).json(errorResponse("Can not create new project"));
+    }
+  },
   deleteProject: async (req, res) => {
     try {
       const { body, user } = req;
