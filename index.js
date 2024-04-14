@@ -1,14 +1,13 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import http from "http";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import middlewareController from "./controllers/middlewareController.js";
 import auth from "./routes/auth.js";
-import tasks from "./routes/task.js";
 import projects from "./routes/project.js";
 import user from "./routes/user.js";
-import middlewareController from "./controllers/middlewareController.js";
 
 dotenv.config();
 const app = express();
@@ -27,12 +26,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(endPoint + "/auth", auth);
-app.use(
-  endPoint,
-  middlewareController.verifyToken,
-  middlewareController.verifyUser,
-  tasks
-);
+
 app.use(
   endPoint,
   middlewareController.verifyToken,
@@ -45,6 +39,7 @@ app.use(
   middlewareController.verifyUser,
   projects
 );
+
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
