@@ -1,3 +1,4 @@
+import { upload } from "../index.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 const userController = {
   getMe: async (req, res) => {
@@ -6,6 +7,17 @@ const userController = {
 
       if (user._id)
         return res.status(200).json(successResponse(user, "Success"));
+    } catch (e) {
+      res.status(500).json(errorResponse("Can not get profile"));
+    }
+  },
+  updateMe: async (req, res) => {
+    try {
+      const { user, body } = req;
+      console.log(req.file);
+      return res
+        .status(200)
+        .json(successResponse({ ...user, avatar: req.file }, "Success"));
     } catch (e) {
       res.status(500).json(errorResponse("Can not get profile"));
     }

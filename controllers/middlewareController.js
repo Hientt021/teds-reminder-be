@@ -3,6 +3,7 @@ import { errorResponse } from "../utils/response.js";
 import dotenv from "dotenv";
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import { upload } from "../index.js";
 dotenv.config();
 
 const middlewareController = {
@@ -36,6 +37,23 @@ const middlewareController = {
     req.user = others;
     next();
   },
+  // validateAvatarFile: async (req, res, next) => {
+  //   const avatar = req.body;
+  //   upload(req, res, function (err) {
+  //     if (err) {
+  //       return res.status(400).send({ message: err.message });
+  //     }
+  //     // Everything went fine.
+  //     const files = req.files;
+  //     res.json(files);
+  //     if (user._id)
+  //     return res.status(200).json(successResponse(user, "Success"));
+  //   })
+
+  //   const { password, ...others } = user._doc;
+  //   req.user = others;
+  //   next();
+  // },
 };
 
 export default middlewareController;

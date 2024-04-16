@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema(
         return this._id;
       },
     },
+    avatar: {
+      type: String,
+    },
   },
   {
     collection: "users",
