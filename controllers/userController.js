@@ -14,13 +14,11 @@ const userController = {
   updateMe: async (req, res) => {
     try {
       const { user, body } = req;
-      const updatedUser = await UserModel.findOneAndUpdate(
-        { id: user.id },
-        body,
-        {
-          new: true,
-        }
-      );
+
+      const updatedUser = await UserModel.findByIdAndUpdate(user.id, body, {
+        new: true,
+      });
+
       if (updatedUser)
         res
           .status(200)
