@@ -76,7 +76,9 @@ app.post(
   middlewareController.verifyUser,
   upload.single("avatar"),
   (req, res) => {
-    res.status(200).json(req.file);
+    res
+      .status(200)
+      .json({ url: "https://teds-reminder-be.onrender.com/" + req.file.path });
   }
 );
 
