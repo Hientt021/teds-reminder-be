@@ -8,8 +8,6 @@ import middlewareController from "./controllers/middlewareController.js";
 import auth from "./routes/auth.js";
 import projects from "./routes/project.js";
 import user from "./routes/user.js";
-import multer from "multer";
-import path from "path";
 
 dotenv.config();
 const app = express();
