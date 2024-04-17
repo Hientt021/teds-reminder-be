@@ -66,18 +66,16 @@ app.use(
   projects
 );
 
-app.get("/upload", (req, res) => {
+app.get(endPoint + "/upload/avatar", (req, res) => {
   res.render("upload", { layout: false });
 });
 
 app.post(
-  "/upload",
+  endPoint + "/upload/avatar",
   middlewareController.verifyToken,
   middlewareController.verifyUser,
   upload.single("avatar"),
   (req, res) => {
-    console.log(req.file, req.user);
-
     res.status(200).json(req.file);
   }
 );
