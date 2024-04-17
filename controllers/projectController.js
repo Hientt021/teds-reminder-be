@@ -21,7 +21,7 @@ const projectController = {
   getAllProjects: async (req, res) => {
     try {
       const { id } = req.user;
-      const projects = await ProjectModel.find({ created_by: id }).sort({
+      const projects = await ProjectModel.find({ "members.id": id }).sort({
         id: -1,
       });
       if (projects) res.status(200).json(successResponse(projects, "Success"));

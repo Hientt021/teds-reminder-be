@@ -33,7 +33,15 @@ const ProjectSchema = new mongoose.Schema(
       default: 0,
     },
     members: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [
+        {
+          id: mongoose.Schema.Types.ObjectId,
+          avatar: String,
+          email: String,
+          userName: String,
+          role: String,
+        },
+      ],
     },
     boards: {
       type: [

@@ -27,6 +27,23 @@ const userController = {
       res.status(500).json(errorResponse("Can not get profile"));
     }
   },
+  getUsers: async (req, res) => {
+    try {
+      const { user, query } = req;
+      const { page = 1, limit = 10, email } = query;
+      var regex = new RegExp(email, "i");
+      const users = await UserModel.find({
+        email: regex,
+      })
+        .select("-password")
+        .limit(limit)
+        .skip(limit * page);
+
+      if (users) return res.status(200).json(successResponse(users, "Success"));
+    } catch (e) {
+      res.status(500).json(errorResponse("Can not get profile"));
+    }
+  },
 };
 
 export default userController;
