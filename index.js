@@ -8,6 +8,8 @@ import middlewareController from "./controllers/middlewareController.js";
 import auth from "./routes/auth.js";
 import projects from "./routes/project.js";
 import user from "./routes/user.js";
+import multer from "multer";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -20,6 +22,30 @@ const corsOptions = {
 
 const uri = process.env.MONGOOSE_DB;
 mongoose.connect(uri).then((data) => console.log("Connected to MongoDB"));
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
@@ -38,6 +64,22 @@ app.use(
   middlewareController.verifyToken,
   middlewareController.verifyUser,
   projects
+);
+
+app.get("/upload", (req, res) => {
+  res.render("upload", { layout: false });
+});
+
+app.post(
+  "/upload",
+  middlewareController.verifyToken,
+  middlewareController.verifyUser,
+  upload.single("avatar"),
+  (req, res) => {
+    console.log(req.file, req.user);
+
+    res.status(200).json(req.file);
+  }
 );
 
 const normalizePort = (val) => {
