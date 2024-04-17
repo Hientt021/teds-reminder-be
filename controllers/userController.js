@@ -1,4 +1,3 @@
-import { upload } from "../index.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 const userController = {
   getMe: async (req, res) => {

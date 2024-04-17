@@ -1,6 +1,6 @@
 import express from "express";
 import userController from "../controllers/userController.js";
-import { upload } from "../index.js";
+import { upload } from "../upload.js";
 
 const router = express.Router();
 

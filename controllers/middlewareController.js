@@ -3,7 +3,7 @@ import { errorResponse } from "../utils/response.js";
 import dotenv from "dotenv";
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import { upload } from "../index.js";
+
 dotenv.config();
 
 const middlewareController = {
