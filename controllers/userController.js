@@ -24,9 +24,7 @@ const userController = {
       if (updatedUser)
         res
           .status(200)
-          .json(
-            successResponse(updatedUser, "Create new project successfully")
-          );
+          .json(successResponse(updatedUser, "Update profile successfully"));
     } catch (e) {
       res.status(500).json(errorResponse("Can not get profile"));
     }
