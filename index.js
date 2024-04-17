@@ -22,12 +22,15 @@ const corsOptions = {
 
 const uri = process.env.MONGOOSE_DB;
 mongoose.connect(uri).then((data) => console.log("Connected to MongoDB"));
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const types = file.mimetype.split("/");
+    const fileType = "." + types[1];
+    cb(null, "avatar_" + req.user.id + fileType);
   },
 });
 
@@ -76,7 +79,7 @@ app.post(
   middlewareController.verifyUser,
   upload.single("avatar"),
   (req, res) => {
-    res.status(200).json(req.file);
+    res.status(200).json({ url: process.env.DOMAIN + "/" + req.file.path });
   }
 );
 

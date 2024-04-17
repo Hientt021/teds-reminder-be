@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+      default: process.env.DOMAIN + "/uploads/avatar.png",
     },
   },
   {
