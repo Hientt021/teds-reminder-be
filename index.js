@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const types = file.mimetype.split("/");
     const fileType = "." + types[1];
-    cb(null, "avatar_" + req.user.id + Date.now() + fileType);
+    cb(null, "avatar_" + req.user.id + "_" + Date.now() + fileType);
   },
 });
 
