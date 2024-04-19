@@ -35,11 +35,12 @@ const ProjectSchema = new mongoose.Schema(
     members: {
       type: [
         {
-          id: mongoose.Schema.Types.ObjectId,
+          id: String,
           avatar: String,
           email: String,
           userName: String,
           role: String,
+          status: String,
         },
       ],
     },

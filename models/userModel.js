@@ -10,7 +10,19 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    position: {
+    professional: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    phoneNumber: {
       type: String,
     },
     email: {
