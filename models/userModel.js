@@ -41,6 +41,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: process.env.DOMAIN + "/uploads/avatar.png",
     },
+    mode: {
+      type: String,
+      default: "light",
+    },
+    languages: {
+      type: String,
+      default: "en",
+    },
   },
   {
     collection: "users",

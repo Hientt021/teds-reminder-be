@@ -20,10 +20,18 @@ const projectController = {
   },
   getAllProjects: async (req, res) => {
     try {
-      const { id } = req.user;
-      const projects = await ProjectModel.find({ "members.id": id }).sort({
-        id: -1,
-      });
+      const { user, query } = req;
+      const { id } = user;
+      const { page = 1, limit = 10, requested } = query;
+      const projects = await ProjectModel.find({
+        "members.id": id,
+        "members.status": requested ? "requested" : "attended",
+      })
+        .sort({
+          id: -1,
+        })
+        .limit(limit)
+        .skip(limit * (page - 1));
       if (projects) res.status(200).json(successResponse(projects, "Success"));
     } catch (e) {
       res.status(500).json(errorResponse(e));

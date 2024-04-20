@@ -12,12 +12,11 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    created_by: mongoose.Schema.Types.ObjectId,
     status: {
       type: String,
       required: true,
     },
-    product_type: [String],
+    description: String,
     start_date: Number,
     end_date: Number,
     tasks: {
@@ -48,10 +47,10 @@ const ProjectSchema = new mongoose.Schema(
       type: [
         {
           title: String,
-          id: String,
+          id: mongoose.Schema.Types.ObjectId,
         },
       ],
-      default: [{ title: "To Do", color: "#009688" }],
+      default: [{ title: "To Do", id: new mongoose.Types.ObjectId() }],
     },
   },
   {
