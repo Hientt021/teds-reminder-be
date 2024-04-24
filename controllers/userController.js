@@ -30,14 +30,13 @@ const userController = {
   getUsers: async (req, res) => {
     try {
       const { user, query } = req;
-      const { page = 1, limit = 10, email } = query;
-      var regex = new RegExp(email, "i");
-      const users = await UserModel.find({
-        email: regex,
-      })
+      const { page = 1, limit = 56, email = "" } = query;
+      let filters = {};
+      if (email) filters = { ...filters, email: { $regex: email } };
+      const users = await UserModel.find(filters)
         .select("-password")
         .limit(limit)
-        .skip(limit * page);
+        .skip(limit * (page - 1));
 
       if (users) return res.status(200).json(successResponse(users, "Success"));
     } catch (e) {

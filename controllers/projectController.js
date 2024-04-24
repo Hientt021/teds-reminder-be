@@ -22,10 +22,25 @@ const projectController = {
     try {
       const { user, query } = req;
       const { id } = user;
-      const { page = 1, limit = 10, requested } = query;
+      const {
+        page = 1,
+        limit = 5,
+        requested,
+        start_date,
+        end_date,
+        title,
+        ...rest
+      } = query;
+      let filters = {};
+      if (start_date) filters = { ...filters, start_date: { $gt: start_date } };
+      if (end_date) filters = { ...filters, end_date: { $lt: end_date } };
+      if (title) filters = { ...filters, title: { $regex: title } };
+
       const projects = await ProjectModel.find({
+        ...rest,
         "members.id": id,
         "members.status": requested ? "requested" : "attended",
+        ...filters,
       })
         .sort({
           id: -1,
